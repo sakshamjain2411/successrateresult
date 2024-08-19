@@ -1,0 +1,412 @@
+<mvc:View class="levelView" controllerName="successrateresult.controller.Level" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:layout="sap.ui.layout" xmlns:com="sap.suite.ui.commons" xmlns:mc="sap.suite.ui.microchart"
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:viz.data="sap.viz.ui5.data" xmlns:tnt="sap.tnt" xmlns:fb="sap.ui.comp.filterbar"
+	xmlns:viz="sap.viz.ui5.controls" xmlns:f="sap.f" xmlns="sap.m" xmlns:html="http://www.w3.org/1999/xhtml" displayBlock="true">
+	<f:DynamicPage id="dynamicPageId" class="dynamicPageId" headerExpanded="true">
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Text text="Best Practices Usage Dashboard"></Text>
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:header>
+			<f:DynamicPageHeader class="dynamicPageHeader" pinnable="true">
+				<f:content>
+					<fb:FilterBar reset="onReset" class="dynamicPageFilterBar" useToolbar="false" showGoOnFB="false">
+						<fb:filterItems>
+							<fb:FilterItem name="A" label="Version">
+								<fb:control>
+									<Select id="ddlVersion" class="ddlVersion" items="{path:'/stlist'}" change="ddlVersionChanged" selectedKey="Version">
+										<core:ListItem key="{versionPara}" text="{version}"/>
+									</Select>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="B" label="Date Range">
+								<fb:control>
+									<DateRangeSelection id="dateviewrange" class="DRS2" delimiter="{path:'dateModel>/delimiterDRS1'}"
+										dateValue="{path:'dateModel>/dateValueDRS1'}" secondDateValue="{path:'dateModel>/secondDateValueDRS1'}"
+										displayFormat="{path:'dateModel>/dateFormatDRS1'}" change="UpdateDateRange"
+										valueStateText="Selected Date Range cannont be greater than Current Date."/>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="C" label="Time Segments">
+								<fb:control>
+									<SegmentedButton id="dateview" class="segmentedDate" selectedButton="btn3Month">
+										<Button id="btn1Day" text="1D" press="UpdateGUIGraphsdate"/>
+										<Button id="btn1Month" text="1M" press="UpdateGUIGraphsdate"/>
+										<Button id="btn3Month" text="3M" press="UpdateGUIGraphsdate"/>
+										<Button id="btn6Month" text="6M" press="UpdateGUIGraphsdate"/>
+										<Button id="btn1Year" text="1Y" press="UpdateGUIGraphsdate"/>
+										<Button id="btn2Year" text="All" press="UpdateGUIGraphsdate"/>
+									</SegmentedButton>
+								</fb:control>
+							</fb:FilterItem>
+							
+							<fb:FilterItem name="D" label="Product">
+								<fb:control>
+									<Select id="ddlProd" class="ddlVersion" selectedKey="All" change="ddlProductChanged">
+										<core:ListItem key="All" text="All"/>
+										<core:ListItem key="EC" text="Employee Central"/>
+										<core:ListItem key="RM" id="RM" text="Recruiting Management"/>
+										<core:ListItem key="SM" id="SM" text="Succession Management"/>
+										<core:ListItem key="PG" id="PG" text="Performance and Goals"/>
+										<core:ListItem key="CO" id="CO" text="Compensation"/>
+										<core:ListItem key="ON" id="ON" text="Onboarding"/>
+									</Select>
+								</fb:control>
+							</fb:FilterItem>
+							
+							<fb:FilterItem name="E" label="Scope Applied">
+								<fb:control>
+									<Select id="ddlDeploy" class="ddlVersion" selectedKey="BP" change="ddlDeployChanged">
+										<core:ListItem key="All" text="All"/>
+										<core:ListItem key="BP" text="Best Practices"/>
+										<core:ListItem key="CUST" text="Partner"/>
+									</Select>
+								</fb:control>
+							</fb:FilterItem>
+							
+							<!--<fb:FilterItem name="E" label="Configuration Blocks">-->
+							<!--	<fb:control>-->
+							<!--		<Select id="ddlSC" class="ddlVersion" selectedKey="All" change="ddlScopeChanged">-->
+							<!--			<core:ListItem key="All" text="All"/>-->
+							<!--			<core:ListItem key="EC Core" text="EC Core"/>-->
+							<!--			<core:ListItem key="EC Time Off" text="EC Time Off"/>-->
+										<!--<core:ListItem key="EC Time Sheet" text="EC Time Sheet"/>-->
+							<!--			<core:ListItem key="Benefits" text="EC Global Benefits"/>-->
+							<!--			<core:ListItem key="EC Dependents Management" text="EC Dependents Management"/>-->
+							<!--		</Select>-->
+							<!--	</fb:control>-->
+							<!--</fb:FilterItem>-->
+							
+						</fb:filterItems>
+					</fb:FilterBar>
+				</f:content>
+			</f:DynamicPageHeader>
+		</f:header>
+		<f:content>
+			<VBox>
+				<HBox class="parentHBox">
+					
+						
+						
+						<GenericTile size="M" header="Trending" class="BQDrillTrend" frameType="TwoByOne">
+							<tileContent>
+								<TileContent footer="" unit="">
+									<content>
+										<HBox class="trendHBox">
+											<VBox class="trendVBox1">
+												<Text  id="trendVBox1Text1" text="Most Run" class="trendVBox1Text1">
+													
+												</Text>
+												<Text  id="trendVBox1Text2" text="" class="trendVBox1Text2">
+													
+												</Text>
+												<Text  id="trendVBox1Text3" text="" class="trendVBox1Text3">
+													
+												</Text>
+												<Text  id="trendVBox1Text4" text="" class="trendVBox1Text4">
+													
+												</Text>
+											</VBox>
+											<VBox class="trendVBox2">
+												<Text  id="trendVBox2Text1" text="Least Run" class="trendVBox2Text1">
+													
+												</Text>
+												<Text  id="trendVBox2Text2" text="" class="trendVBox2Text2">
+													
+												</Text>
+												<Text  id="trendVBox2Text3" text="" class="trendVBox2Text3">
+													
+												</Text>
+												<Text  id="trendVBox2Text4" text="" class="trendVBox2Text4">
+													
+												</Text>
+											</VBox>
+											<VBox class="trendVBox4">
+												<Text id="trendVBox4Text1" text="Least Successful" class="trendVBox4Text1">
+													
+												</Text>
+												<Text id="trendVBox4Text2" text="" class="trendVBox4Text2">
+													
+												</Text>
+												<Text id="trendVBox4Text3" text="" class="trendVBox4Text3">
+													
+												</Text>
+												<Text id="trendVBox4Text4" text="" class="trendVBox4Text4">
+													
+												</Text>
+											</VBox>
+											<VBox class="trendVBox3">
+												<Text  id="trendVBox3Text1" text="Most Successful" class="trendVBox3Text1">
+													
+												</Text>
+												<Text  id="trendVBox3Text2" text="" class="trendVBox3Text2">
+													
+												</Text>
+												<Text  id="trendVBox3Text3" text="" class="trendVBox3Text3">
+													
+												</Text>
+												<Text  id="trendVBox3Text4" text="" class="trendVBox3Text4">
+													
+												</Text>
+											</VBox>
+											<!--<VBox class="trendVBox4">-->
+											<!--	<Text id="trendVBox4Text1" text="Least Successful" class="trendVBox4Text1">-->
+													
+											<!--	</Text>-->
+											<!--	<Text id="trendVBox4Text2" text="" class="trendVBox4Text2">-->
+													
+											<!--	</Text>-->
+											<!--	<Text id="trendVBox4Text3" text="" class="trendVBox4Text3">-->
+													
+											<!--	</Text>-->
+											<!--	<Text id="trendVBox4Text4" text="" class="trendVBox4Text4">-->
+													
+											<!--	</Text>-->
+											<!--</VBox>-->
+										</HBox>
+									</content>
+								</TileContent>
+							</tileContent>
+						</GenericTile>
+						
+						<GenericTile size="M" header="Upgrade Action Success Rate" class="BQDrillSub" frameType="TwoByOne">
+							<tileContent>
+								<!--<TileContent footer="Number of Success" class="SuccessTileContent" size="S">-->
+								<!--	<content>-->
+								<!--		<NumericContent id="noSuccessValSub" scale="" value="" valueColor="Good" />-->
+								<!--	</content>-->
+								<!--</TileContent>-->
+								<!--<TileContent footer="Number of Failure" class="SuccessTileContentRight" size="S">-->
+								<!--	<content>-->
+								<!--		<NumericContent id="noFailValSub" scale="" value="" valueColor="Error" />-->
+								<!--	</content>-->
+								<!--</TileContent>-->
+								<!--<TileContent footer="Number of Upgrades" class="SuccessTileContentRight" size="S">-->
+								<!--	<content>-->
+								<!--		<NumericContent id="noUpgradeValSub" scale="" value="" valueColor="Critical" />-->
+								<!--	</content>-->
+								<!--</TileContent>-->
+								<TileContent footer="" unit="">
+									<content>
+										<mc:RadialMicroChart id="radialMicroChartSub" percentage="" valueColor=""/>
+									</content>
+								</TileContent>
+								
+								<TileContent footer="" class="TableTileContentRight" unit="">
+									<content>
+										<mc:ComparisonMicroChart id="SentimentTileChart"
+											class="SentimentTileChart" size="L">
+											<mc:data>
+												<mc:ComparisonMicroChartData
+													title="Number of Upgrades" id="noUpgradeValSub" value="" displayValue="" color="Critical"></mc:ComparisonMicroChartData>
+												<mc:ComparisonMicroChartData
+													title="Number of Success" id="noSuccessValSub" value="" displayValue="" color="Good"></mc:ComparisonMicroChartData>
+												<mc:ComparisonMicroChartData
+													title="Number of Failure" id="noFailValSub" value="" displayValue="" color="Error"></mc:ComparisonMicroChartData>
+											</mc:data>
+										</mc:ComparisonMicroChart>
+									</content>
+								</TileContent>
+								
+			
+							</tileContent>
+						</GenericTile>
+						
+						<GenericTile size="M" header="" class="BQDrillListSub" frameType="TwoByOne">
+							<tileContent>
+								<TileContent footer="" class="" size="S">
+									<content>
+										<VBox>
+											<HBox class="tableHBoxNoSuccess">
+												<Text class="noCustListSuccess" text="Customers with no successful upgrade"></Text>
+												<Button icon="sap-icon://download" class="export" press="onExportNoSuccess"/>
+											</HBox>
+											<ScrollContainer id="tableScKist" width="100%" height="165px" horizontal="false" vertical="true">
+												<Table id="listTableList" inset="false" class="tableList" items="{path: '/'}">
+													<columns>
+														<Column width="65%"></Column>
+														<Column width="35%"></Column>
+													</columns>
+													<items>
+														<ColumnListItem>
+															<cells>
+																<!--<Text text="{path:'Name'}"/>-->
+																<Text text="{path:'Name',formatter: '.defaultnameNo' }"/>
+																<Text text="{path:'Time'}"/>
+															</cells>
+														</ColumnListItem>
+													</items>
+												</Table>
+											</ScrollContainer>
+										</VBox>
+									</content>
+								</TileContent>
+							</tileContent>
+						</GenericTile>
+						
+						
+					</HBox>
+				<HBox class="heightHBox">
+					
+					<ScrollContainer id="tileSC" class="tileSC" width="100%"  horizontal="false" vertical="true"
+							content="{path:'testModelTile>/'}">
+							<GenericTile frameType="OneByOne" press="onTileSelect" class="sapUiSmallMarginEnd aggTile" header="{testModelTile>upgradeItem}">
+								<!--<GenericTile frameType="OneByOne" press="showInformationNewConfig" class="{testModelTile>upgradeItem}" header="{testModelTile>upgradeItem}">-->
+								<tileContent>
+									<TileContent>
+										<content>
+											<!--<mc:InteractiveDonutChart>-->
+											<!--	<mc:segments>-->
+											<!--		<mc:InteractiveDonutChartSegment label="Success" value="{testModelTile>percentTrue}" displayedValue="{testModelTile>formatTrue}"-->
+											<!--			color="Good"/>-->
+											<!--		<mc:InteractiveDonutChartSegment label="Fail" value="{testModelTile>percentFalse}" displayedValue="{testModelTile>formatFalse}"-->
+											<!--			color="Error"/>-->
+											<!--	</mc:segments>-->
+											<!--</mc:InteractiveDonutChart>-->
+											<VBox class="vBoxRadial">
+												<HBox class="hBoxRadial" justifyContent="Center">
+													<mc:RadialMicroChart percentage="{testModelTile>percentTrue}" valueColor="Good"/>
+													<VBox>
+														<HBox>
+															<Text class="trueLegend">
+																
+															</Text>
+															<Text class="textTrue" text="Success">
+																
+															</Text>
+															
+														</HBox>
+														<Text class="textColorTiles" text="{testModelTile>formatTrue}">
+																
+															</Text>
+														<HBox>
+															<Text class="falseLegend">
+																
+															</Text>
+															<Text class="textFail" text="Fail">
+																
+															</Text>
+															
+														</HBox>
+														<Text class="textColorTiles" text="{testModelTile>formatFalse}">
+																
+															</Text>
+													</VBox>
+												</HBox>
+												<VBox class="hBoxRadialBtm">
+													<HBox class="vBoxRadialBtm1"> 
+														<Text class="absSuccess" text="No. of Customers ">
+															
+														</Text>
+														<Text class="absSuccessVal" text="{testModelTile>cmpnyLength}">
+															
+														</Text>
+													</HBox>
+													<HBox class="vBoxRadialBtm2">
+														<Text class="absSuccess" text="No. of Executions">
+															
+														</Text>
+														<Text class="absSuccessVal" text="{testModelTile>countTotal}">
+															
+														</Text>
+													</HBox>
+													<HBox class="vBoxRadialBtm3">
+														<Text class="absSuccess" text="Success">
+															
+														</Text>
+														<Text class="absSuccessVal" text="{testModelTile>countTrue}">
+															
+														</Text>
+													</HBox>
+													<HBox class="vBoxRadialBtm4">
+														<Text class="absSuccess" text="Fail">
+															
+														</Text>
+														<Text class="absSuccessVal" text="{testModelTile>countFalse}">
+															
+														</Text>
+													</HBox>
+												</VBox>
+												
+											</VBox>
+											
+										</content>
+									</TileContent>
+									<TileContent class="chkTileContent" footer="">
+										<content>
+											<Text class="chkText"/>
+										</content>
+									</TileContent>
+								</tileContent>
+							</GenericTile>
+						</ScrollContainer>
+					<VBox class="cntVBox">
+						<VBox id="vboxTable" class="vboxTable">
+							<HBox class="tableHBox">
+								<Text class="noCustList" text="Customers"></Text>
+								<Button icon="sap-icon://download" class="export" press="onExport"/>
+							</HBox>
+							<SearchField liveChange="onSearch" width="100%" id="searchfield" class="searchfield" placeholder="Search Customers"/>
+							<MultiComboBox id="ddlSPSuccess" width="100%" selectedKeys="All" class="klz_popcombo" items="{path:'/splist'}" selectionChange="ddlSPChangedSuccess">
+								<core:ListItem key="{BPKEY}" text="{BP}"/>
+							</MultiComboBox>
+							<Table showNoData="false">
+								<columns>
+									<Column minScreenWidth="" demandPopin="false" mergeDuplicates="true">
+										<Bar class="barTableHead">
+											<contentLeft>
+												<Text text="Company Name"/>
+											</contentLeft>
+											<contentRight>
+												<Text text="Time Stamp (Last Run)"/>
+											</contentRight>
+										</Bar>
+									</Column>
+								</columns>
+							</Table>
+							<ScrollContainer id="tableSc" width="100%" height="" horizontal="false" vertical="true">
+								<Table id="listTable" inset="false" class="table" items="{path: '/stlistUser'}">
+									<columns>
+										<Column></Column>
+									</columns>
+									<items>
+										<ColumnListItem>
+											<cells>
+												<Panel expandable="true" expanded="false">
+													<headerToolbar>
+														<Toolbar height="3rem">
+															<Bar>
+																<contentLeft>
+																	
+																	<!--<Text text="{val}"/>-->
+																	<Text text="{path:'val',formatter: '.defaultname' }"/>
+																</contentLeft>
+																<contentRight>
+																	<Text text="{time}"/>
+																</contentRight>
+															</Bar>
+														</Toolbar>
+													</headerToolbar>
+													<content>
+														<Text text="{path:'upgradeDisplay',formatter: '.boldName' }"/>
+													</content>
+												</Panel>
+											</cells>
+										</ColumnListItem>
+									</items>
+								</Table>
+							</ScrollContainer>
+						</VBox>
+					</VBox>
+				</HBox>
+				<!--<VBox class="barChartVBox">-->
+				<!--<Text class="noCustBarchart" text="Configuration Block Usage"></Text>-->
+				<!--<core:HTML id="repoContReviewUpgrade" content='&lt;div id=&quot;repoContainerReviewUpgrade&quot;&gt;&lt;/div&gt;'></core:HTML>-->
+			<!--</VBox>-->
+			</VBox>
+		</f:content>
+	</f:DynamicPage>
+</mvc:View>
