@@ -47,7 +47,7 @@ sap.ui.define([
 				}
 			}
 		},
-		onAfterRendering: function() {
+		onAfterRendering: async function() {
 			var superadmin = new sap.ui.model.json.JSONModel();
 			sap.ui.getCore().setModel(superadmin, "superadmin");
 			superadmin.setData("");
@@ -178,33 +178,31 @@ sap.ui.define([
 				var fromCompDate = fromDate.toISOString();
 				var toCompDate = Datetoday.toISOString();
 			}
-			
-			// var oModelUpgradeRecruit = new sap.ui.model.json.JSONModel();
-			// oModelUpgradeRecruit.setSizeLimit(10000);
-			// sap.ui.getCore().setModel(oModelUpgradeRecruit, "oModelUpgradeRecruit");
-				
-			var oModelUpgradeRecruitEC = new sap.ui.model.json.JSONModel(sap.ui.require.toUrl("successrateresult/model/EC.json"));
-			oModelUpgradeRecruitEC.setSizeLimit(50000);
+
+			let aResponse;
+			const sServiceURL = this.getOwnerComponent().getManifestObject().resolveUri(`odata/v4/report/UpgradeElements`);
+			aResponse = (await (await fetch(sServiceURL.concat(`?$filter=PRODUCT_NAME eq 'Employee Central'`))).json());
+            const oModelUpgradeRecruitEC = new sap.ui.model.json.JSONModel(aResponse.value);
 			sap.ui.getCore().setModel(oModelUpgradeRecruitEC, "oModelUpgradeRecruitEC");
 
-			var oModelUpgradeRecruitSM = new sap.ui.model.json.JSONModel(sap.ui.require.toUrl("successrateresult/model/SM.json"));
-			oModelUpgradeRecruitSM.setSizeLimit(50000);
+			aResponse = (await (await fetch(sServiceURL.concat(`?$filter=PRODUCT_NAME eq 'Succession Management'`))).json());
+            const oModelUpgradeRecruitSM = new sap.ui.model.json.JSONModel(aResponse.value);
 			sap.ui.getCore().setModel(oModelUpgradeRecruitSM, "oModelUpgradeRecruitSM");
 
-			var oModelUpgradeRecruitPG = new sap.ui.model.json.JSONModel(sap.ui.require.toUrl("successrateresult/model/PG.json"));
-			oModelUpgradeRecruitPG.setSizeLimit(50000);
+			aResponse = (await (await fetch(sServiceURL.concat(`?$filter=PRODUCT_NAME eq 'Performance and Goals'`))).json());
+            const oModelUpgradeRecruitPG = new sap.ui.model.json.JSONModel(aResponse.value);
 			sap.ui.getCore().setModel(oModelUpgradeRecruitPG, "oModelUpgradeRecruitPG");
 
-			var oModelUpgradeRecruitCO = new sap.ui.model.json.JSONModel(sap.ui.require.toUrl("successrateresult/model/CO.json"));
-			oModelUpgradeRecruitCO.setSizeLimit(50000);
+			aResponse = (await (await fetch(sServiceURL.concat(`?$filter=PRODUCT_NAME eq 'Compensation'`))).json());
+            const oModelUpgradeRecruitCO = new sap.ui.model.json.JSONModel(aResponse.value);
 			sap.ui.getCore().setModel(oModelUpgradeRecruitCO, "oModelUpgradeRecruitCO");
 
-			var oModelUpgradeRecruitON = new sap.ui.model.json.JSONModel(sap.ui.require.toUrl("successrateresult/model/ON.json"));
-			oModelUpgradeRecruitON.setSizeLimit(50000);
+			aResponse = (await (await fetch(sServiceURL.concat(`?$filter=PRODUCT_NAME eq 'Onboarding'`))).json());
+            const oModelUpgradeRecruitON = new sap.ui.model.json.JSONModel(aResponse.value);
 			sap.ui.getCore().setModel(oModelUpgradeRecruitON, "oModelUpgradeRecruitON");
 
-			var oModelUpgradeRecruitREC = new sap.ui.model.json.JSONModel(sap.ui.require.toUrl("successrateresult/model/REC.json"));
-			oModelUpgradeRecruitREC.setSizeLimit(50000);
+			aResponse = (await (await fetch(sServiceURL.concat(`?$filter=PRODUCT_NAME eq 'Recruiting Management'`))).json());
+            const oModelUpgradeRecruitREC = new sap.ui.model.json.JSONModel(aResponse.value);
 			sap.ui.getCore().setModel(oModelUpgradeRecruitREC, "oModelUpgradeRecruitREC");
 			
 			let sURL = this.getOwnerComponent().getManifestObject().resolveUri("sap/sfsf_repo/service/services.xsodata/");
